@@ -1,6 +1,10 @@
 
 from pathlib import Path
 import os
+import django_heroku
+import dj_database_url
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +42,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'dental.urls'
@@ -113,6 +118,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static'),
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 #Dette er mail for gmail, i contact form det er forskelligt hvis det f.eks skal være hotmail.
 # EMAIL_HOST = "smtp.gmail.com"
 #EMAIL_PORT = 587
@@ -129,5 +137,4 @@ EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = False
 
 #python -m smtpd -n -c DebuggingServer localhost:1025
-
-
+django_heroku.settings(locals())
